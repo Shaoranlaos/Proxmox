@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
-# Copyright (c) 2021-2024 tteck
+# Copyright (c) 2021-2025 tteck
 # Author: tteck
 # Co-Author: MickLesk (Canbiz)
 # License: MIT
-# https://github.com/tteck/Proxmox/raw/main/LICENSE
+# https://github.com/community-scripts/ProxmoxVE/raw/main/LICENSE
 # Source: https://github.com/ellite/wallos
 
 source /dev/stdin <<< "$FUNCTIONS_FILE_PATH"
@@ -22,7 +22,10 @@ $STD apt-get install -y \
   mc \
   apache2 \
   libapache2-mod-php \
-  php8.2-{mbstring,gd,curl,intl,imagick,bz2,sqlite3,zip,xml} 
+  php8.2-{mbstring,gd,curl,intl,imagick,bz2,sqlite3,zip,xml} \
+  wget \
+  openssh-server \
+  cron
 msg_ok "Installed Dependencies"
 
 msg_info "Installing Wallos (Patience)"
@@ -59,6 +62,7 @@ $STD curl http://localhost/endpoints/db/migrate.php
 msg_ok "Installed Wallos"
 
 msg_info "Setting up Crontabs" 
+mkdir -p /var/log/cron
 cat <<EOF > /opt/wallos.cron
 0 1 * * * php /opt/wallos/endpoints/cronjobs/updatenextpayment.php >> /var/log/cron/updatenextpayment.log 2>&1
 0 2 * * * php /opt/wallos/endpoints/cronjobs/updateexchange.php >> /var/log/cron/updateexchange.log 2>&1

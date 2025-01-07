@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-# Copyright (c) 2021-2024 tteck
+# Copyright (c) 2021-2025 tteck
 # Author: tteck (tteckster)
 # License: MIT
-# https://github.com/tteck/Proxmox/raw/main/LICENSE
+# https://github.com/community-scripts/ProxmoxVE/raw/main/LICENSE
 # Source: https://github.com/Donkie/Spoolman
 
 source /dev/stdin <<<"$FUNCTIONS_FILE_PATH"
@@ -34,15 +34,15 @@ $STD apt-get install -y \
   python3-setuptools \
   python3-wheel \
   python3-pip
-rm -rf /usr/lib/python3.*/EXTERNALLY-MANAGED
 msg_ok "Installed Python3"
 
 msg_info "Installing Spoolman"
 RELEASE=$(wget -q https://github.com/Donkie/Spoolman/releases/latest -O - | grep "title>Release" | cut -d " " -f 4)
+cd /opt
 wget -q https://github.com/Donkie/Spoolman/releases/download/$RELEASE/spoolman.zip
 unzip -q spoolman.zip -d spoolman
 rm -rf spoolman.zip
-cd /opt/spoolman
+cd spoolman
 $STD pip3 install -r requirements.txt
 wget -q https://raw.githubusercontent.com/Donkie/Spoolman/master/.env.example -O .env
 echo "${RELEASE}" >/opt/${APPLICATION}_version.txt

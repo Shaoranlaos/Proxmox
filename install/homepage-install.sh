@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-# Copyright (c) 2021-2024 tteck
+# Copyright (c) 2021-2025 tteck
 # Author: tteck (tteckster)
 # License: MIT
-# https://github.com/tteck/Proxmox/raw/main/LICENSE
+# https://github.com/community-scripts/ProxmoxVE/raw/main/LICENSE
 
 source /dev/stdin <<< "$FUNCTIONS_FILE_PATH"
 color
@@ -17,11 +17,7 @@ msg_info "Installing Dependencies"
 $STD apt-get install -y curl
 $STD apt-get install -y sudo
 $STD apt-get install -y mc
-$STD apt-get install -y make
-$STD apt-get install -y g++
-$STD apt-get install -y gcc
 $STD apt-get install -y ca-certificates
-$STD apt-get install -y gnupg
 $STD apt-get install -y wget
 $STD apt-get install -y gpg
 $STD apt-get install -y openssh-server
@@ -50,6 +46,8 @@ rm -rf homepage-${RELEASE}
 cd /opt/homepage
 cp /opt/homepage/src/skeleton/* /opt/homepage/config
 $STD pnpm install
+export NEXT_PUBLIC_VERSION="v$RELEASE"
+export NEXT_PUBLIC_REVISION="source"
 $STD pnpm build
 echo "${RELEASE}" >/opt/${APPLICATION}_version.txt
 msg_ok "Installed Homepage v${RELEASE}"

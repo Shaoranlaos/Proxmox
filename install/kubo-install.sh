@@ -22,7 +22,7 @@ $STD apt-get install -y wget
 $STD apt-get install -y openssh-server
 msg_ok "Installed Dependencies"
 
-msg_info "Installing Kubo"
+msg_info "Installing IPFS"
 RELEASE=$(wget -q https://github.com/ipfs/kubo/releases/latest -O - | grep "title>Release" | cut -d " " -f 4)
 $STD wget -q "https://github.com/ipfs/kubo/releases/download/${RELEASE}/kubo_${RELEASE}_linux-arm64.tar.gz"
 tar -xzf "kubo_${RELEASE}_linux-arm64.tar.gz" -C /usr/local
@@ -35,7 +35,7 @@ ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin "[\"http://${LXCI
 ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods '["PUT", "POST"]'
 echo "${RELEASE}" >"/opt/${APPLICATION}_version.txt"
 $STD rm "kubo_${RELEASE}_linux-arm64.tar.gz"
-msg_ok "Installed Kubo"
+msg_ok "Installed IPFS"
 
 msg_info "Creating Service"
 cat <<EOF >/etc/systemd/system/ipfs.service

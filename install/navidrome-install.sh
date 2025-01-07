@@ -30,6 +30,7 @@ install -d -o root -g root /var/lib/navidrome
 wget -q https://github.com/navidrome/navidrome/releases/download/v${RELEASE}/navidrome_${RELEASE}_linux_arm64.tar.gz -O Navidrome.tar.gz
 $STD tar -xvzf Navidrome.tar.gz -C /opt/navidrome/
 chown -R root:root /opt/navidrome
+chmod +x /opt/navidrome/navidrome
 mkdir -p /music
 cat <<EOF >/var/lib/navidrome/navidrome.toml
 MusicFolder = '/music'

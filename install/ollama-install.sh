@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
-# Copyright (c) 2021-2024 tteck
+# Copyright (c) 2021-2025 tteck
 # Author: tteck
 # Co-Author: havardthom
 # License: MIT
-# https://github.com/tteck/Proxmox/raw/main/LICENSE
+# https://github.com/community-scripts/ProxmoxVE/raw/main/LICENSE
 
 source /dev/stdin <<< "$FUNCTIONS_FILE_PATH"
 color
@@ -26,10 +26,10 @@ $STD apt-get install -y cmake
 msg_ok "Installed Dependencies"
 
 msg_info "Installing Golang"
-$STD wget https://golang.org/dl/go1.23.2.linux-amd64.tar.gz
-$STD tar -xzf go1.23.2.linux-amd64.tar.gz -C /usr/local
+$STD wget https://golang.org/dl/go1.23.2.linux-arm64.tar.gz
+$STD tar -xzf go1.23.2.linux-arm64.tar.gz -C /usr/local
 $STD ln -s /usr/local/go/bin/go /usr/local/bin/go
-rm -rf go1.23.2.linux-amd64.tar.gz
+rm -rf go1.23.2.linux-arm64.tar.gz
 msg_ok "Installed Golang"
 
 msg_info "Setting up Intel® Repositories"
@@ -42,7 +42,7 @@ $STD apt-get update
 msg_ok "Set up Intel® Repositories"
 
 msg_info "Setting Up Hardware Acceleration"
-$STD apt-get -y install {va-driver-all,ocl-icd-libopencl1,intel-opencl-icd,vainfo,intel-gpu-tools,intel-level-zero-gpu,level-zero,level-zero-dev}
+$STD apt-get -y install {va-driver-all,ocl-icd-libopencl1,vainfo,level-zero,level-zero-dev}
 if [[ "$CTTYPE" == "0" ]]; then
   chgrp video /dev/dri
   chmod 755 /dev/dri
@@ -51,10 +51,6 @@ if [[ "$CTTYPE" == "0" ]]; then
   $STD adduser $(id -u -n) render
 fi
 msg_ok "Set Up Hardware Acceleration"
-
-msg_info "Installing Intel® oneAPI Base Toolkit (Patience)"
-$STD apt-get install -y --no-install-recommends intel-basekit-2024.1
-msg_ok "Installed Intel® oneAPI Base Toolkit"
 
 msg_info "Installing Ollama (Patience)"
 $STD git clone https://github.com/ollama/ollama.git /opt/ollama
