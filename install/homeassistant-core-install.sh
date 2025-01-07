@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-# Copyright (c) 2021-2024 tteck
+# Copyright (c) 2021-2025 tteck
 # Author: tteck (tteckster)
 # License: MIT
-# https://github.com/tteck/Proxmox/raw/main/LICENSE
+# https://github.com/community-scripts/ProxmoxVE/raw/main/LICENSE
 
 source /dev/stdin <<<"$FUNCTIONS_FILE_PATH"
 color
@@ -14,8 +14,51 @@ network_check
 update_os
 
 msg_info "Installing Dependencies (Patience)"
-$STD apt-get install -y git curl sudo mc bluez libffi-dev libssl-dev libjpeg-dev zlib1g-dev autoconf build-essential libopenjp2-7 libturbojpeg0-dev ffmpeg liblapack3 liblapack-dev dbus-broker libpcap-dev libavdevice-dev libavformat-dev libavcodec-dev libavutil-dev libavfilter-dev libmariadb-dev-compat libatlas-base-dev pip python3.12-dev wget openssh-server
+$STD apt-get install -y \
+  curl \
+  git \
+  sudo \
+  mc \
+  gnupg \
+  ca-certificates \
+  bluez \
+  libtiff6 \
+  tzdata \
+  libffi-dev \
+  libssl-dev \
+  libjpeg-dev \
+  zlib1g-dev \
+  autoconf \
+  build-essential \
+  libopenjp2-7 \
+  libturbojpeg0-dev \
+  ffmpeg \
+  liblapack3 \
+  liblapack-dev \
+  dbus-broker \
+  libpcap-dev \
+  libavdevice-dev \
+  libavformat-dev \
+  libavcodec-dev \
+  libavutil-dev \
+  libavfilter-dev \
+  libmariadb-dev-compat \
+  libatlas-base-dev \
+  software-properties-common \
+  wget \
+  openssh-server
 msg_ok "Installed Dependencies"
+
+msg_info "Setup Python3"
+$STD add-apt-repository -y ppa:deadsnakes/ppa
+$STD apt-get update
+$STD apt-get install -y \
+  python3.13-* \
+  python3-pip \
+  python3.13-dev \
+  python3.13-venv
+rm -rf /usr/lib/python3.*/EXTERNALLY-MANAGED
+msg_ok "Setup Python3"
 
 msg_info "Installing UV"
 $STD pip install uv

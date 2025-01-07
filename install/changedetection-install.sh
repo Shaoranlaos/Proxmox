@@ -85,7 +85,6 @@ $STD npm prune production --prefix /opt/browserless
 msg_ok "Installed Browserless & Playwright"
 
 msg_info "Installing Font Packages"
-DEBIAN_FRONTEND=noninteractive
 $STD apt-get install -y \
   fontconfig \
   libfontconfig1 \
